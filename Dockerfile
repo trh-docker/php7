@@ -50,7 +50,8 @@ RUN apt-get update && apt-get install -y \
     apt-get autoclean && apt-get autoremove &&\
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 ADD files/php/ /etc/php/${PHP_VERSION}/fpm/pool.d/
-
+ADD files/bash/entry.sh /opt/bin/
+RUN chmod +x /opt/bin/entry.sh 
 EXPOSE 80
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
