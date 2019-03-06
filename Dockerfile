@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y curl openssl gnupg wget gzip git &&\
 ENV DINIT=1.2.2 \
     DOMAIN=0.0.0.0 \
     PORT=80 \
-    PHP_VERSION=7.0
+    PHP_VERSION="7.0"
 
 ADD https://raw.githubusercontent.com/adbegon/pub/master/AdfreeZoneSSL.crt /usr/local/share/ca-certificates/
 ADD https://github.com/Yelp/dumb-init/releases/download/v${DINIT}/dumb-init_${DINIT}_amd64.deb /tmp/dumb-init_amd64.deb
