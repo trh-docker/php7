@@ -10,7 +10,10 @@ RUN apt-get update && apt-get install -y curl openssl gnupg wget gzip git &&\
     apt-get autoclean && apt-get autoremove &&\
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 # Setting up Caddy Server, AFZ Cert and installing dumb-init
-ENV DINIT=1.2.2
+ENV DINIT=1.2.2 \
+    DOMAIN=0.0.0.0 \
+    PORT=80 \
+    PHP_VERSION=7.0
 
 ADD https://raw.githubusercontent.com/adbegon/pub/master/AdfreeZoneSSL.crt /usr/local/share/ca-certificates/
 ADD https://github.com/Yelp/dumb-init/releases/download/v${DINIT}/dumb-init_${DINIT}_amd64.deb /tmp/dumb-init_amd64.deb
@@ -21,29 +24,34 @@ RUN update-ca-certificates --verbose &&\
     dpkg -i /tmp/dumb-init_amd64.deb && \
     apt-get autoclean && apt-get autoremove &&\
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
-ADD files/php/ /etc/php/7.0/fpm/pool.d/
+ADD files/php/ /etc/php/${PHP_VERSION}/fpm/pool.d/
 RUN apt-get update && apt-get install -y \
-    php7.0 \
-    php7.0.cgi \
-    php7.0-dom \
-    php7.0-ctype \
-    php7.0-curl \
-    php7.0-fpm \
-    php7.0-gd \
-    php7.0-intl \
-    php7.0-json \
-    php7.0-mbstring \
-    php7.0-mcrypt \
-    php7.0-mysqli \
-    php7.0-mysqlnd \
-    php7.0-opcache \
-    php7.0-pdo \
-    php7.0-posix \
-    php7.0-xml \
-    php7.0-iconv \
-    php7.0-imagick \
-    php7.0-xdebug \
+    php${PHP_VERSION} \
+    php${PHP_VERSION}.cgi \
+    php${PHP_VERSION}-dom \
+    php${PHP_VERSION}-ctype \
+    php${PHP_VERSION}-curl \
+    php${PHP_VERSION}-fpm \
+    php${PHP_VERSION}-gd \
+    php${PHP_VERSION}-intl \
+    php${PHP_VERSION}-json \
+    php${PHP_VERSION}-mbstring \
+    php${PHP_VERSION}-mcrypt \
+    php${PHP_VERSION}-mysqli \
+    php${PHP_VERSION}-mysqlnd \
+    php${PHP_VERSION}-opcache \
+    php${PHP_VERSION}-pdo \
+    php${PHP_VERSION}-posix \
+    php${PHP_VERSION}-xml \
+    php${PHP_VERSION}-iconv \
+    php${PHP_VERSION}-imagick \
+    php${PHP_VERSION}-xdebug \
     php-pear \
-    php7.0-phar && \
+    php${PHP_VERSION}-phar && \
     apt-get autoclean && apt-get autoremove &&\
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+
+EXPOSE 80
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["/opt/bin/entry.sh"]
