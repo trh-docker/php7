@@ -23,7 +23,6 @@ RUN update-ca-certificates --verbose &&\
     dpkg -i /tmp/dumb-init_amd64.deb && \
     apt-get autoclean && apt-get autoremove &&\
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
-ADD files/php/ /etc/php/7.0/fpm/pool.d/
 RUN apt-get update && apt-get install -y \
     php7.0 \
     php7.0.cgi \
@@ -49,6 +48,7 @@ RUN apt-get update && apt-get install -y \
     php7.0-phar && \
     apt-get autoclean && apt-get autoremove &&\
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+ADD files/php/ /etc/php/7.0/fpm/pool.d/
 
 EXPOSE 80
 
