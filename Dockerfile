@@ -6,14 +6,19 @@ COPY --from=caddy-source /opt/bin/caddy /opt/bin/
 ADD files/Caddy/Caddyfile /opt/caddy/
 WORKDIR /opt/tlm/html
 # Installing Curl and OpenSSL
-RUN apt-get update && apt-get install -y curl openssl gnupg wget gzip git &&\
+RUN apt-get update && apt-get install -y curl openssl gnupg wget gzip git \
+    apt-transport-https lsb-release ca-certificates &&\
+    wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg &&\
+    echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list &&\
+    apt-get update &&\
     apt-get autoclean && apt-get autoremove &&\
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+
 # Setting up Caddy Server, AFZ Cert and installing dumb-init
 ENV DINIT=1.2.2 \
     DOMAIN=0.0.0.0 \
     PORT=80 \
-    PHP_VERSION=7.0
+    PHP_VERSION=7.1
 
 ADD https://raw.githubusercontent.com/adbegon/pub/master/AdfreeZoneSSL.crt /usr/local/share/ca-certificates/
 ADD https://github.com/Yelp/dumb-init/releases/download/v${DINIT}/dumb-init_${DINIT}_amd64.deb /tmp/dumb-init_amd64.deb
