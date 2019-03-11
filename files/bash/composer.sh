@@ -19,5 +19,6 @@ rm composer-setup.php
 
 chmod +x composer.phar 
 ln -s /opt/bin/composer.phar /bin/composer.phar
+ln -s /opt/bin/composer.phar /bin/composer
 
 exit $RESULT
