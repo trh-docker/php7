@@ -31,7 +31,7 @@ RUN update-ca-certificates --verbose &&\
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 RUN apt-get update && apt-get install -y \
     php${PHP_VERSION} \
-    php${PHP_VERSION}.cgi \
+    php${PHP_VERSION}-cgi \
     php${PHP_VERSION}-dom \
     php${PHP_VERSION}-ctype \
     php${PHP_VERSION}-curl \
