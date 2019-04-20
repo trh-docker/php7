@@ -57,7 +57,6 @@ RUN apt-get update && apt-get install -y \
 ADD files/php/ /etc/php/${PHP_VERSION}/fpm/pool.d/
 ADD files/bash/entry.sh /opt/bin/
 ADD files/bash/composer.sh /opt/
-ADD files/php/www.conf /etc/php/7.3/fpm/pool.d/
 RUN chmod +x /opt/composer.sh && /opt/composer.sh &&\
     apt-get autoclean && apt-get autoremove &&\
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
