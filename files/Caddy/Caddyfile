@@ -1,6 +1,6 @@
 {$DOMAIN}:{$PORT} {
-    root /opt/tlm/html/
-    fastcgi / /run/php/php7.1-fpm.sock php
+    root /opt/tlm/html/public/
+    fastcgi / /run/php/php7.3-fpm.sock php
     rewrite {
         to {path} {path}/ /index.php?{query}
     }
